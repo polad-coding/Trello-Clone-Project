@@ -1,0 +1,527 @@
+.navbar {
+  height: 40px;
+  background-color: #026aa7;
+  flex-flow: row;
+  padding: 0;
+}
+
+  .navbar > div {
+    flex-basis: 0;
+    flex-grow: 1;
+    height: 100%;
+  }
+
+#nav-left-part {
+  display: flex;
+  align-items: center;
+}
+
+.navbar button {
+  margin-right: 5px;
+}
+
+  .navbar button:first-child {
+    margin-left: 5px;
+  }
+
+#home-button {
+  height: 32px;
+  width: 32px;
+  display: flex;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  background-color: #4e97c2;
+  border: none;
+  border-radius: 3px;
+  outline: none;
+}
+
+#create-button {
+  height: 32px;
+  width: 32px;
+  display: flex;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  background-color: #4e97c2;
+  border: none;
+  border-radius: 3px;
+  outline: none;
+}
+
+  #create-button:hover {
+    opacity: 0.8;
+  }
+
+#home-button:hover {
+  opacity: 0.8;
+}
+
+#boards-button {
+  height: 32px;
+  width: 90px;
+  display: flex;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  background-color: #4e97c2;
+  border: none;
+  border-radius: 3px;
+  outline: none;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+#boards-button-small-screen-version {
+  height: 32px;
+  width: 32px;
+  display: flex;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  background-color: #4e97c2;
+  border: none;
+  border-radius: 3px;
+  outline: none;
+}
+
+#boards-button:hover {
+  opacity: 0.8;
+}
+
+#boards-button span {
+  margin-left: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#nav-central-part {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+  #nav-central-part span {
+    background-image: url(https://a.trellocdn.com/prgb/dist/images/header-logo-2x.01ef898811a879595cea.png);
+    background-position: 100% 0;
+    background-repeat: no-repeat;
+    background-size: 80px 30px;
+    cursor: pointer;
+    height: 30px;
+    width: 80px;
+    opacity: 0.5;
+  }
+
+    #nav-central-part span:hover {
+      opacity: 0.8;
+    }
+
+#nav-right-part {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
+.user-initials {
+  width: 32px;
+  height: 32px;
+  color: white;
+  border-radius: 50%;
+  margin-right: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /*padding-bottom:2px;*/
+  cursor: pointer;
+}
+
+  .user-initials span {
+    font-weight: 600;
+    font-size: 13px;
+  }
+
+
+#create-modal {
+  height: 100px;
+  width: 100px;
+  background-color: #ffffff;
+  border-radius: 3px;
+  box-shadow: 0 8px 16px -4px rgba(9,30,66,.25),0 0 0 1px rgba(9,30,66,.08);
+  position: fixed;
+  right: 4px;
+  width: 304px;
+  height: 220px;
+  margin-top: 4px;
+  display: flex;
+  flex-flow: column;
+  color: #6b778c;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+#account-modal {
+  height: 100px;
+  width: 100px;
+  background-color: #ffffff;
+  border-radius: 3px;
+  box-shadow: 0 8px 16px -4px rgba(9,30,66,.25),0 0 0 1px rgba(9,30,66,.08);
+  position: fixed;
+  right: 4px;
+  width: 304px;
+  height: 180px;
+  margin-top: 4px;
+  display: flex;
+  flex-flow: column;
+  color: #172b4d;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+#create-modal button{
+    outline:none;
+}
+
+#account-modal button{
+    outline:none;
+}
+
+#create-modal-title-part {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 35px;
+}
+
+#account-modal-title-part {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 35px;
+  color: #6b778c;
+}
+
+#create-modal-title-part button {
+  position: absolute;
+  right: 10px;
+  border: none;
+  background-color: #ffffff;
+  color: #6b778c;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+#account-modal-title-part button {
+  position: absolute;
+  right: 10px;
+  border: none;
+  background-color: #ffffff;
+  color: #6b778c;
+  cursor: pointer;
+  /*font-size: 14px;*/
+  font-weight: 400;
+}
+/*border-bottom: 1px solid #e7e9ed;*/
+
+#create-modal-actions-part {
+  /*  flex-basis: 0;
+  flex-grow: 1;*/
+  margin: 0px 0px 15px 0px;
+  border-top: 1px solid #e7e9ed;
+  display: flex;
+  flex-flow: column;
+  padding-top: 5px;
+}
+
+#account-modal-actions-part {
+  margin: 5px 0px 0px 0px;
+  display: flex;
+  flex-flow: column;
+  padding-top: 5px;
+}
+
+#create-modal-actions-part button {
+  flex-grow: 1;
+  flex-basis: 0;
+  background: #ffffff;
+  border: none;
+  padding: 6px 12px;
+  text-align: left;
+}
+
+#account-modal-actions-part button {
+  flex-grow: 1;
+  flex-basis: 0;
+  background: #ffffff;
+  border: none;
+  text-align: left;
+  font-weight:400;
+  font-size:14px;
+  padding:5px 0px 5px 13px;
+}
+
+.horizontal-line {
+  border-bottom: 1px solid #e7e9ed;
+  height:1px;
+  margin:5px 10px 5px 10px;
+}
+
+#create-modal-actions-part button:hover {
+  background-color: rgba(9,30,66,.04);
+}
+
+#account-modal-actions-part button:hover {
+  background-color: rgba(9,30,66,.04);
+}
+
+#create-board-button, #create-team-button
+{
+  display: flex;
+  flex-flow: column;
+}
+
+
+  #create-board-button p, #create-team-button p {
+    color: #5e6c84;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    margin-bottom: 0px;
+  }
+
+  #create-board-button span, #create-team-button span {
+    color: #172b4d;
+  }
+
+  #create-board-button svg, #create-team-button svg{
+    color: rgb(66, 82, 110);
+    margin-bottom: 5px;
+  }
+
+#users-info-part {
+  display: flex;
+  border-top: 1px solid #e7e9ed;
+  margin: 5px 10px 0px 10px;
+  padding-top: 10px;
+  height: 50px;
+}
+
+#users-fullname-and-email{
+    display:flex;
+    flex-flow:column;
+}
+
+#users-fullname-and-email p{
+    flex-grow:1;
+    flex-basis:0;
+    margin-bottom:0px;
+    margin-left:5px
+}
+
+  #users-fullname-and-email p:first-child{
+      font-weight:600;
+  }
+
+  #users-fullname-and-email p:last-child {
+    font-size: 9pt;
+    color: #b3bac5;
+  }
+
+
+  #team-modal-container{
+      position:absolute;
+      width:100%;
+      height:100vh;
+      background: rgba(0,0,0,.6);
+      z-index:100;
+      top:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+  }
+
+#team-modal {
+  width: 1200px;
+  min-height: 500px;
+  background-color: #ffffff;
+  border-radius: 3px;
+  box-shadow: 0 8px 16px -4px rgba(9,30,66,.25),0 0 0 1px rgba(9,30,66,.08);
+  display: flex;
+  flex-flow: row;
+  position: relative;
+}
+
+
+  #team-modal div {
+    flex-grow: 1;
+    flex-basis: 0;
+  }
+
+#team-modal-form-part {
+  display: flex;
+  flex-flow: column;
+  margin-top: 50px;
+  align-items:center;
+}
+
+  #team-modal-form-part form {
+    width: 388px;
+    display: flex;
+    flex-direction: column;
+  }
+
+    #team-modal-form-part form span:first-child {
+      color: #091e42;
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: -.01em;
+      line-height: 28px;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    #team-modal-form-part form span:nth-child(2) {
+      font-size: 18px;
+      color: #6b778c;
+      margin: 12px auto 24px;
+      line-height: 20px;
+      font-weight: 400;
+    }
+
+    #team-modal-form-part form label {
+      color: #091e42;
+      font-weight: 700;
+      font-size: 12px;
+      margin-top: 10px;
+    }
+
+    #team-modal-form-part form textarea {
+      border-radius: 3px;
+      border: 2px solid #dfe1e6;
+      background-color: #fafbfc;
+      padding: 8px 12px;
+      font-size: 14px;
+      resize: none;
+      transition-property: background-color;
+      transition-duration: 85ms;
+      transition-timing-function: ease;
+    }
+
+      #team-modal-form-part form textarea:hover {
+        background-color: #ebecf0;
+      }
+
+      #team-modal-form-part form textarea:focus {
+        background-color: #fff;
+        border: 2px solid #0079bf;
+      }
+
+    #team-modal-form-part form input[type='text'] {
+      height: 48px;
+      border-radius: 3px;
+      border: 2px solid #dfe1e6;
+      background-color: #fafbfc;
+      padding: 8px 12px;
+      font-size: 14px;
+      transition-property: background-color;
+      transition-duration: 85ms;
+      transition-timing-function: ease;
+    }
+
+      #team-modal-form-part form input[type='text']:hover {
+        background-color: #ebecf0;
+      }
+
+#team-modal-submit-button {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  height: 48px;
+  transition-property: background-color;
+  transition-duration: 85ms;
+  transition-timing-function: ease;
+}
+
+  #team-modal-submit-button:focus {
+    box-shadow: none;
+    opacity: 0.8;
+  }
+
+.submit-team-button-disabled {
+  cursor: not-allowed;
+  background-color: #f5f6f7;
+  color: #a5adba;
+  border: none;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+}
+
+.submit-team-button-enabled {
+  background-color: #5aac44;
+  color: white;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  border: none;
+  cursor: pointer;
+}
+
+  .submit-team-button-enabled:hover {
+    background-color: #61bd4f;
+  }
+
+#close-team-modal-button {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+#team-modal-form-part form input[type='text']:focus {
+  background-color: #fff;
+  border: 2px solid #0079bf;
+}
+
+
+#team-modal-picture-part {
+  background-image: url(https://a.trellocdn.com/prgb/dist/images/create-team/wavy-border.1ea9c6f8c41d10be0e12.svg);
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  padding-top: 60px;
+  border-radius: 3px;
+}
+
+  @media screen and (max-width:1279px) and (min-width:901px){
+    #team-modal {
+      width: calc(100vw - 48px);
+    }
+  }
+
+@media screen and (max-width:900px) {
+  #team-modal {
+    max-width: 475px;
+    width: calc(100vw - 48px);
+    flex-direction: column-reverse;
+    position:absolute;
+    top:5px;
+  }
+
+  #team-modal form{
+      width:calc(100% - 20px);
+      padding-left:10px;
+      padding-right:10px;
+  }
+
+    #team-modal form span:first-child, #team-modal form span:nth-child(2) {
+        text-align:center;
+    }
+
+    #team-modal-container{
+        overflow-y:auto;
+    }
+}

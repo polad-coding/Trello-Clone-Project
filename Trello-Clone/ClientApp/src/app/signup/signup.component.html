@@ -1,0 +1,123 @@
+<div id="signup-container-for-small-devices" class="container-fluid d-flex d-sm-none">
+  <img src="assets/trello-logo-blue.svg" style="width:150px;height:50px;margin-left:auto;margin-right:auto;" />
+  <div *ngIf="!firstStagePassed">
+    <ng-container *ngTemplateOutlet="mailSignupForm"></ng-container>
+  </div>
+  <div *ngIf="firstStagePassed">
+    <ng-container *ngTemplateOutlet="fullMailSignupForm"></ng-container>
+  </div>
+</div>
+
+<div id="signup-container" class="container-fluid d-none d-sm-flex">
+  <div id="left-image">
+    <img src="assets/trello-signin-left-image.png" style="width:100%; height:100%; object-fit:contain;" />
+  </div>
+  <div id="right-image">
+    <img src="assets/trello-signin-right-image.png" style="width:100%; height:100%; object-fit:contain;" />
+  </div>
+  <div id="signup-form-container">
+    <div id="trello-logo">
+      <img src="assets/trello-logo-blue.svg" style="width:150px;height:50px;" />
+    </div>
+    <div id="signup-form" *ngIf="!firstStagePassed" @InsertRemoveTrigger>
+      <ng-container *ngTemplateOutlet="mailSignupForm"></ng-container>
+    </div>
+    <div id="full-signup-form" *ngIf="firstStagePassed" @InsertRemoveTrigger>
+      <ng-container *ngTemplateOutlet="fullMailSignupForm"></ng-container>
+    </div>
+  </div>
+</div>
+
+<ng-template #mailSignupForm>
+  <p style="margin-left:auto;margin-right:auto; display:flex; justify-content:center; margin-top:30px; color: #5E6C84; font-weight:bold; font-size: 16px;">Sign up for your account</p>
+  <form #mailForm="ngForm" (ngSubmit)="ProceedToSecondReistrationStage(mailForm)" >
+    <div class="form-group">
+      <input class="form-control" required email placeholder="Enter email" name="email" [(ngModel)]="newUser.email" #email="ngModel" (ngModelChange)="IsMailFieldInputCorrect($event,mailForm)" />
+      <ng-template [ngIf]="errorMessageIsVisisble">
+        <div class="error-message">
+          Thid email address already exists in our database!
+        </div>
+      </ng-template>
+    </div>
+    <input [ngClass]="continueButtonIsActive === false ? 'button-disabled' : 'button-enabled'" style="border:none;" [disabled]="!continueButtonIsActive" type="submit" value="Continue" class="btn w-100 " />
+    <a id="signin-anchor" routerLink="/signin">Already have an account? Log In</a>
+  </form>
+</ng-template>
+
+<ng-template #fullMailSignupForm>
+  <p style="margin-left:auto;margin-right:auto; display:flex; justify-content:center; color: #5E6C84; font-weight:bold; font-size: 16px;">Sign up for your account</p>
+  <form method="post" (ngSubmit)="CreateNewUser(fullForm, $event)" novalidate id="fullForm" #fullForm="ngForm">
+    <div class="form-group">
+      <input class="form-control" required email placeholder="Enter email" name="email" [(ngModel)]="newUser.email" #email="ngModel" readonly />
+    </div>
+    <div class="form-group">
+      <input class="form-control" required text placeholder="Enter user name" name="username" [(ngModel)]="newUser.username" #username="ngModel" />
+      <div class="error-message" *ngIf="submitted && fullForm.controls['username'].errors != null">
+        <div *ngIf="fullForm.controls['username'].errors.required">
+          User name is required.
+        </div>
+        <div *ngIf="fullForm.controls['username'].errors.alreadyExists">
+          This user name already exists in our database.
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <input class="form-control" required text placeholder="Enter full name" name="fullname" [(ngModel)]="newUser.fullname" #fullname="ngModel" />
+      <div class="error-message" *ngIf="submitted && fullForm.controls['fullname'].errors != null">
+        <div *ngIf="fullForm.controls['fullname'].errors.required">
+          Full name is required.
+        </div>
+      </div>
+    </div>
+    <div class="form-group" id="passwordField" #passwordField (click)="FocusElement($event,passwordField)" tabindex="-1">
+      <div class="input-group">
+        <input class="form-control" (keyup)="CheckPasswordComplexity(password)" tabindex="-1" required type="password" minlength="8" placeholder="Create password" [(ngModel)]="newUser.password" name="password" #password="ngModel" />
+        <span class="input-group-append">
+          <button class="btn" type="button" (click)="ToggleFieldVisibility(password)" tabindex="-1">
+            <ng-template [ngIf]="!passwordIsVisible">
+              <svg width="24" height="24" viewBox="0 0 24 24" focusable="false" role="presentation">
+                <g fill="currentColor" fill-rule="evenodd">
+                  <path d="M12 18c-4.536 0-7.999-4.26-7.999-6 0-2.001 3.459-6 8-6 4.376 0 7.998 3.973 7.998 6 0 1.74-3.462 6-7.998 6m0-14C6.48 4 2 8.841 2 12c0 3.086 4.576 8 10 8 5.423 0 10-4.914 10-8 0-3.159-4.48-8-10-8">
+                  </path>
+                  <path d="M11.977 13.984c-1.103 0-2-.897-2-2s.897-2 2-2c1.104 0 2 .897 2 2s-.896 2-2 2m0-6c-2.206 0-4 1.794-4 4s1.794 4 4 4c2.207 0 4-1.794 4-4s-1.793-4-4-4">
+                  </path>
+                </g>
+              </svg>
+            </ng-template>
+            <ng-template [ngIf]="passwordIsVisible">
+              <svg width="24" height="24" viewBox="0 0 24 24" focusable="false" role="presentation">
+                <g fill="currentColor" fill-rule="evenodd">
+                  <path d="M11.983 15.984a4.005 4.005 0 0 1-4.002-4c0-2.206 1.795-4 4.002-4a4.005 4.005 0 0 1 4.002 4c0 2.206-1.795 4-4.002 4M12 4C6.48 4 2 8.84 2 12c0 3.086 4.577 8 10 8s10-4.914 10-8c0-3.16-4.481-8-10-8"></path>
+                  <circle cx="12" cy="12" r="2"></circle>
+                </g>
+              </svg>
+            </ng-template>
+          </button>
+        </span>
+      </div>
+    </div>
+    <div class="error-message" *ngIf="submitted && fullForm.controls['password'].errors != null">
+      <div *ngIf="fullForm.controls['password'].errors.required">
+        Password is required.
+      </div>
+      <div *ngIf="fullForm.controls['password'].errors.minlength">
+        Password must be at least 8 characters long.
+      </div>
+    </div>
+    <div #passwordCompexityContainer id="password-compexity-container">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+
+    </div>
+    <div id="password-complexity-indicator">
+      <p>{{passwordComplexityIndicator}}</p>
+
+    </div>
+    <input type="submit" value="Sign up" class="btn w-100" id="signup-button" />
+    <button type="button" class="btn back-to-email-section-button w-100" (click)="BackToEmailSection(fullForm)">Back to email selection</button>
+    <a id="signin-anchor" routerLink="/signin">Already have an account? Log In</a>
+  </form>
+</ng-template>

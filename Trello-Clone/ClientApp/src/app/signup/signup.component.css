@@ -1,0 +1,239 @@
+#password-compexity-container {
+  display: flex;
+  flex-direction: row;
+  height: 5px;
+}
+
+.back-to-email-section-button {
+  background-color: rgb(255, 255, 255);
+  color: rgb(66, 82, 110);
+  font-weight: bold;
+  box-shadow: rgba(0, 0, 0, 0.2) 1px 1px 5px 0px;
+  margin-top: 5px;
+}
+
+/*#password-complexity-indicator {
+  display: flex;
+}
+
+  #password-complexity-indicator * {
+    display: inline;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: lighter;
+    color: rgb(137, 147, 164);
+    font-size: 12px;
+  }
+
+#password-compexity-container span {
+  flex-grow: 1;
+  border-top: 2px solid rgb(223, 225, 230);
+}
+
+  #password-compexity-container span:not(:last-child) {
+    margin-right: 5px;
+  }
+*/
+
+.button-disabled {
+  cursor: default;
+  background-color: #E2E4E6;
+  color: #8C8C8C;
+  font-weight: bold;
+}
+
+#passwordField input {
+  border: none;
+}
+
+#signup-button {
+  border-radius: 3px;
+  color: white;
+  font-weight: bold;
+  background-color: #5aac44;
+  border: none;
+  margin-top: 16px;
+}
+
+#passwordField {
+  border: 2px solid #DFE1E6;
+  border-radius: 3px;
+  margin-bottom: 0;
+}
+
+  #passwordField button {
+    background-color: #FAFBFC;
+  }
+
+.form-control:focus {
+  background-color: #FAFBFC;
+  border-color: #0077b6;
+  box-shadow: none;
+}
+
+#passwordField input:focus {
+  border-color: #DFE1E6;
+  box-shadow: none;
+}
+
+#passwordField button {
+  border: none;
+  box-shadow: none;
+}
+
+.error-message {
+  color: red;
+  font-weight: lighter;
+  font-size: 10px;
+}
+
+.button-enabled {
+  background-color: #5aac44;
+  color: white;
+  font-weight: bold;
+}
+
+  .button-enabled:hover {
+    background-color: #61BD4F;
+  }
+
+#signup-container {
+  height: 100vh;
+  width: 100%;
+  background-color: #F9FAFC;
+  position: relative;
+  display: flex;
+  overflow-x: hidden;
+}
+
+#signup-container-for-small-devices {
+  height: 100vh;
+  width: 100%;
+  background-color: #F9FAFC;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#left-image {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 35%;
+  width: 33%;
+}
+
+#right-image {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 30%;
+  width: 33%;
+}
+
+#trello-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+#signup-form-container {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  margin: auto;
+  z-index: 300;
+  height: 520px;
+  width: 450px;
+  justify-content: center;
+}
+
+#small-screen-signup-form {
+  margin-left: 20%;
+  margin-right: 20%;
+}
+
+#signin-anchor {
+  border-top: 1px solid hsl(0,0%,80%);
+  display: block;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+  cursor: pointer;
+  color: #0052CC;
+  font-weight: 100;
+}
+
+#signup-button:hover {
+  background-color: #61BD4F;
+}
+
+#full-signup-form {
+  border-radius: 3px;
+  box-shadow: rgba(0,0,0,0.1) 0 0 10px;
+  background-color: #FFFFFF;
+  height: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding-left: 30px;
+  padding-right: 30px;
+  justify-content: center;
+  padding-top: 30px;
+}
+
+#signup-form {
+  border-radius: 3px;
+  box-shadow: rgba(0,0,0,0.1) 0 0 10px;
+  background-color: #FFFFFF;
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+  padding-left: 30px;
+  padding-right: 30px;
+  justify-content: center;
+}
+
+#signin-anchor:hover {
+  text-decoration: underline;
+}
+
+input {
+  font-size: 14px;
+  background-color: #FAFBFC;
+  border: 2px solid #DFE1E6;
+  border-radius: 3px;
+  height: 44px;
+}
+
+#password-compexity-container {
+  display: flex;
+  flex-direction: row;
+  height: 5px;
+  margin-top:7px;
+}
+
+#password-complexity-indicator {
+  display: flex;
+}
+
+  #password-complexity-indicator * {
+    display: inline;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: lighter;
+    color: rgb(137, 147, 164);
+    font-size: 12px;
+  }
+
+#password-compexity-container span {
+  flex-grow: 1;
+  border-top: 2px solid rgb(223, 225, 230);
+}
+
+  #password-compexity-container span:not(:last-child) {
+    margin-right: 5px;
+  }

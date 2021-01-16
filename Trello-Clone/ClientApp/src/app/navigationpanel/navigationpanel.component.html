@@ -1,0 +1,116 @@
+<nav class="navbar">
+  <div id="nav-left-part">
+    <button id="home-button">
+      <svg width="20" height="20" role="presentation" focusable="false" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.586 10.414A2 2 0 003 11.828V19a2 2 0 002 2h5a1 1 0 001-1v-6h2v6a1 1 0 001 1h5a2 2 0 002-2v-7.172a2 2 0 00-.586-1.414l-7.707-7.707a1 1 0 00-1.414 0l-7.707 7.707zM13 12a2 2 0 012 2v5h4v-7.172l-7-7-7 7V19h4v-5a2 2 0 012-2h2z" fill="currentColor"></path></svg>
+    </button>
+    <div class="d-none d-sm-flex">
+      <button id="boards-button">
+        <svg width="20" height="20" role="presentation" focusable="false" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M3 5a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5zm2 1a1 1 0 011-1h4a1 1 0 011 1v10a1 1 0 01-1 1H6a1 1 0 01-1-1V6zm9-1a1 1 0 00-1 1v6a1 1 0 001 1h4a1 1 0 001-1V6a1 1 0 00-1-1h-4z" fill="currentColor"></path></svg>
+        <span>Boards</span>
+      </button>
+    </div>
+    <div class="d-block d-sm-none">
+      <button id="boards-button-small-screen-version">
+        <svg width="20" height="20" role="presentation" focusable="false" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M3 5a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5zm2 1a1 1 0 011-1h4a1 1 0 011 1v10a1 1 0 01-1 1H6a1 1 0 01-1-1V6zm9-1a1 1 0 00-1 1v6a1 1 0 001 1h4a1 1 0 001-1V6a1 1 0 00-1-1h-4z" fill="currentColor"></path></svg>
+      </button>
+    </div>
+  </div>
+  <div id="nav-central-part">
+    <span></span>
+  </div>
+  <div id="nav-right-part">
+    <button id="create-button" (click)="ToggleCreateModalVisibility($event)">
+      <svg width="24" height="24" role="presentation" focusable="false" viewBox="0 0 24 24"><path d="M12 3a1 1 0 00-1 1v7H4a1 1 0 100 2h7v7a1 1 0 102 0v-7h7a1 1 0 100-2h-7V4a1 1 0 00-1-1z" fill="currentColor"></path></svg>
+    </button>
+    <div *ngIf="user.ProfilePhotoURI; else defaultInitials">
+
+    </div>
+    <ng-template #defaultInitials>
+      <div class="user-initials" (click)="ToggleAccountModalVisibility($event)" [style.backgroundColor]="user.avatarColorCode">
+        <span>{{userInitials}}</span>
+      </div>
+    </ng-template>
+  </div>
+</nav>
+
+<ng-template [ngIf]="createModalIsVisisble">
+  <div id="create-modal" (click)="StopFurtherEventPropagation($event)">
+    <div id="create-modal-title-part">
+      <span>Create</span>
+      <button (click)="ToggleCreateModalVisibility($event)">
+        <span>
+          <svg width="10" height="10" viewBox="0 0 14 14" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.58579 7L0.292893 1.70711C-0.0976311 1.31658 -0.0976311 0.683418 0.292893 0.292893C0.683418 -0.0976311 1.31658 -0.0976311 1.70711 0.292893L7 5.58579L12.2929 0.292893C12.6834 -0.0976311 13.3166 -0.0976311 13.7071 0.292893C14.0976 0.683418 14.0976 1.31658 13.7071 1.70711L8.41421 7L13.7071 12.2929C14.0976 12.6834 14.0976 13.3166 13.7071 13.7071C13.3166 14.0976 12.6834 14.0976 12.2929 13.7071L7 8.41421L1.70711 13.7071C1.31658 14.0976 0.683418 14.0976 0.292893 13.7071C-0.0976311 13.3166 -0.0976311 12.6834 0.292893 12.2929L5.58579 7Z" fill="currentColor"></path></svg>
+        </span>
+      </button>
+    </div>
+    <div id="create-modal-actions-part">
+      <button id="create-board-button">
+        <span id="create-board-title-text"><span class="sc-bdVaJa jKipYA" role="img" aria-label="BoardIcon"><svg width="16" height="16" role="presentation" focusable="false" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M3 5a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5zm2 1a1 1 0 011-1h4a1 1 0 011 1v10a1 1 0 01-1 1H6a1 1 0 01-1-1V6zm9-1a1 1 0 00-1 1v6a1 1 0 001 1h4a1 1 0 001-1V6a1 1 0 00-1-1h-4z" fill="currentColor"></path></svg></span> Create board</span>
+        <p>A board is made up of cards ordered on lists. Use it to manage projects, track information, or organize anything.</p>
+      </button>
+      <button id="create-team-button" (click)="DisplayCreateTeamModal($event)">
+        <span id="create-team-title-text"><span class="sc-bdVaJa jKipYA" role="img" aria-label="OrganizationIcon"><svg width="16" height="16" role="presentation" focusable="false" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.505 5.672a4.968 4.968 0 00-1.985-.645 4 4 0 116.521 4.572A8.003 8.003 0 0122 17a1 1 0 01-1 1h-2.223a8.936 8.936 0 00-.713-2h1.853a6.005 6.005 0 00-5.03-4.935 5.016 5.016 0 00-.03-2.257 2 2 0 10-2.352-3.136zM6 10c0 .992.361 1.9.959 2.598A8.002 8.002 0 002 20a1 1 0 001 1h14a1 1 0 001-1 8.002 8.002 0 00-4.959-7.402A4 4 0 106 10zm4 2a2 2 0 100-4 2 2 0 000 4zm0 2a6.002 6.002 0 015.917 5H4.083A6.002 6.002 0 0110 14z" fill="currentColor"></path></svg></span> Create team</span>
+        <p>A team is a group of boards and people. Use it to organize your company, side hustle, family, or friends.</p>
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template [ngIf]="teamModalIsVisible">
+  <div id="team-modal-container">
+    <div id="team-modal" (click)="PreventEventBubblingOnTeamModal($event)">
+      <div id="team-modal-form-part">
+        <form #teamCreationForm="ngForm" autocomplete="off" method="post" (ngSubmit)="SubmitForm(teamCreationForm)">
+          <span>Let's Build a Team</span>
+          <span>Boost your productivity by making it easier for everyone to access boards in one location.</span>
+          <label for="teamName">Team Name</label>
+          <input type="text" [(ngModel)]="newTeam.teamName" name="teamName" #teamName="ngModel" (ngModelChange)="CheckFieldLength(teamName)" required placeholder="Taco's Co." />
+          <label for="teamDescription">Team Description <span style="display: inline; font-weight: 100; color: #6b778c; font-size: 12px; margin-left: 2px;">Optional</span></label>
+          <textarea [(ngModel)]="newTeam.teamDescription" name="teamDescription" #teamDescription="ngModel" placeholder="Our team organizes everything here." rows="6"></textarea>
+          <input type="submit" [ngClass]="submitButtonIsActive === false ? 'submit-team-button-disabled' : 'submit-team-button-enabled'" value="Continue" class="btn w-100" id="team-modal-submit-button" />
+        </form>
+      </div>
+      <div id="team-modal-picture-part">
+        <img src="https://a.trellocdn.com/prgb/dist/images/organization/empty-board.286f8fc83e01c93ed27e.svg" alt="" role="presentation" width="342" height="256">
+      </div>
+      <button id="close-team-modal-button" (click)="CloseTeamModal()">
+        <span>
+          <svg width="24" height="24" role="presentation" focusable="false" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.586 12L5.293 6.707a1 1 0 011.414-1.414L12 10.586l5.293-5.293a1 1 0 111.414 1.414L13.414 12l5.293 5.293a1 1 0 01-1.414 1.414L12 13.414l-5.293 5.293a1 1 0 01-1.414-1.414L10.586 12z" fill="currentColor"></path></svg>
+        </span>
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template [ngIf]="accountModalIsVisible">
+  <div id="account-modal" (click)="StopFurtherEventPropagation($event)">
+    <div id="account-modal-title-part">
+      <span>Account</span>
+      <button (click)="ToggleAccountModalVisibility($event)">
+        <span>
+          <svg width="10" height="10" viewBox="0 0 14 14" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.58579 7L0.292893 1.70711C-0.0976311 1.31658 -0.0976311 0.683418 0.292893 0.292893C0.683418 -0.0976311 1.31658 -0.0976311 1.70711 0.292893L7 5.58579L12.2929 0.292893C12.6834 -0.0976311 13.3166 -0.0976311 13.7071 0.292893C14.0976 0.683418 14.0976 1.31658 13.7071 1.70711L8.41421 7L13.7071 12.2929C14.0976 12.6834 14.0976 13.3166 13.7071 13.7071C13.3166 14.0976 12.6834 14.0976 12.2929 13.7071L7 8.41421L1.70711 13.7071C1.31658 14.0976 0.683418 14.0976 0.292893 13.7071C-0.0976311 13.3166 -0.0976311 12.6834 0.292893 12.2929L5.58579 7Z" fill="currentColor"></path></svg>
+        </span>
+      </button>
+    </div>
+    <div id="users-info-part">
+      <div class="user-initials" style="width:40px;height:40px;" (click)="ToggleAccountModalVisibility($event)" [style.backgroundColor]="user.avatarColorCode">
+        <span>{{userInitials}}</span>
+      </div>
+      <div id="users-fullname-and-email">
+        <p>{{user.fullName}}</p>
+        <p>{{user.email}}</p>
+      </div>
+    </div>
+    <div id="account-modal-actions-part">
+      <button id="account-settings-button">
+        Profile settings
+      </button>
+      <div class="horizontal-line">
+
+      </div>
+      <button id="log-out-button">
+        Log out
+      </button>
+    </div>
+  </div>
+</ng-template>

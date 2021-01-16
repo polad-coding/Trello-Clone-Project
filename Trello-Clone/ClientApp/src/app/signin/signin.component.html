@@ -1,0 +1,58 @@
+<div id="signin-container" class="container-fluid d-none d-sm-flex">
+  <div id="left-image">
+    <img src="assets/trello-signin-left-image.png" style="width:100%; height:100%; object-fit:contain;" />
+  </div>
+  <div id="right-image">
+    <img src="assets/trello-signin-right-image.png" style="width:100%; height:100%; object-fit:contain;" />
+  </div>
+  <div class="full-size-container">
+    <img src="assets/trello-logo-blue.svg" id="trello-logo" />
+    <div id="signin-form-container" @InsertRemoveTrigger>
+      <div id="signin-form">
+        <ng-content *ngTemplateOutlet="pageTemplate"></ng-content>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="signin-container-for-small-devices" class="container-fluid d-flex d-sm-none">
+  <img src="assets/trello-logo-blue.svg" style="width:150px;height:50px;margin-left:auto;margin-right:auto;" />
+  <ng-content *ngTemplateOutlet="pageTemplate"></ng-content>
+</div>
+
+<ng-template #pageTemplate>
+  <p style="margin-left:auto;margin-right:auto; color: #5E6C84; font-weight:bold; font-size: 16px;">Log in to Trello</p>
+  <form #signInForm="ngForm" (ngSubmit)="SubmitForm(signInForm)">
+    <div class="form-group">
+      <input class="form-control" type="text" placeholder="Enter email" required email name="email" [(ngModel)]="user.email" #email="ngModel" />
+      <div class="error-message" *ngIf="submitted && signInForm.controls['email'].errors != null">
+        <div *ngIf="signInForm.controls['email'].errors.required">
+          Email field is required.
+        </div>
+        <div *ngIf="signInForm.controls['email'].errors.email">
+          This is not valid email address.
+        </div>
+        <div *ngIf="signInForm.controls['email'].errors.doesntExists">
+          This email doesn't exists in our database.
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <input class="form-control" type="password" placeholder="Enter password" minlength="8" required name="password" [(ngModel)]="user.password" #password="ngModel" />
+      <div class="error-message" *ngIf="submitted && signInForm.controls['password'].errors != null">
+        <div *ngIf="signInForm.controls['password'].errors.required">
+          Password field is required.
+        </div>
+        <div *ngIf="signInForm.controls['password'].errors.minlength">
+          Password must be at least 8 characters long.
+        </div>
+        <div *ngIf="signInForm.controls['password'].errors.incorrectPassword">
+          Entered password is incorrect.
+        </div>
+      </div>
+    </div>
+    <input id="log-in-button" value="Log in" type="submit" class="btn w-100" />
+
+    <a id="signup-anchor" (click)="RedirectToSignUpPage()">Sign up for an account</a>
+  </form>
+</ng-template>

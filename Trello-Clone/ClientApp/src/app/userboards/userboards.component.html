@@ -1,0 +1,7 @@
+<app-navigationpanel [user]="currentUser" *ngIf="currentUser; else loading"></app-navigationpanel>
+<ng-template #loading>
+  <div >
+    Loading...
+  </div>
+</ng-template>
+

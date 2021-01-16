@@ -1,0 +1,125 @@
+#signin-container {
+  height: 100vh;
+  width: 100%;
+  background-color: #F9FAFC;
+  display: flex;
+  overflow-x: hidden;
+  flex-flow: column;
+}
+
+.error-message {
+  color: red;
+  font-weight: lighter;
+  font-size: 10px;
+}
+
+.full-size-container {
+  display: flex;
+  flex-flow: column;
+  margin: auto;
+  align-items:center;
+}
+
+#signin-container-for-small-devices {
+  height: 100vh;
+  width: 100%;
+  background-color: #F9FAFC;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#left-image {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 35%;
+  width: 33%;
+}
+
+#right-image {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 30%;
+  width: 33%;
+}
+
+#signin-container-for-small-devices p{
+    margin-top:30px;
+    margin-bottom:20px;
+}
+
+#trello-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  width: 150px;
+  height: 50px;
+}
+
+
+.form-control:focus {
+  background-color: #FAFBFC;
+  border-color: #0077b6;
+  box-shadow: none;
+}
+
+#signin-form-container {
+    display:flex;
+    flex-direction:column;
+  align-self: center;
+  margin: auto;
+  z-index: 300;
+  height: 360px;
+  width: 450px;
+}
+
+#signin-form {
+  border-radius: 3px;
+  box-shadow: rgba(0,0,0,0.1) 0 0 10px;
+  background-color: #FFFFFF;
+  height: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding-left: 30px;
+  padding-right: 30px;
+  justify-content: center;
+}
+
+#signup-anchor {
+  border-top: 1px solid hsl(0,0%,80%);
+  display: block;
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+  cursor: pointer;
+  color: #0052CC;
+  font-weight: 100;
+}
+
+#signup-anchor:hover{
+    text-decoration:underline;
+}
+
+#log-in-button {
+  background-color: #5AAC44;
+  color: white;
+  font-weight: bold;
+  border:none;
+}
+
+  #log-in-button:hover {
+    background-color: #61BD4F;
+  }
+
+input {
+  font-size: 14px;
+  background-color: #FAFBFC;
+  border: 2px solid #DFE1E6;
+  border-radius: 3px;
+  height: 44px;
+}
