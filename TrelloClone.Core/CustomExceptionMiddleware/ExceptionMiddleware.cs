@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using TrelloClone.Core.Models;
@@ -8,10 +9,12 @@ namespace TrelloClone.Core.CustomExceptionMiddleware
     public class ExceptionMiddleware
     {
         private RequestDelegate _next;
+        private ILogger<ExceptionMiddleware> _logger;
 
-        public ExceptionMiddleware(RequestDelegate next)
+        public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
         {
             _next = next;
+            _logger = logger;
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -30,6 +33,7 @@ namespace TrelloClone.Core.CustomExceptionMiddleware
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = exception.HResult;
+            _logger.LogError(exception, exception.Message);
 
             return context.Response.WriteAsync(new ErrorDetailsModel 
             { 

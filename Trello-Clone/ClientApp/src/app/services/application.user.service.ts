@@ -17,28 +17,28 @@ export class ApplicationUserService {
 
 
   public ExistsByEmail(mail: string) {
-    return this.http.get(`https://localhost:44373/api/authentication/ExistsByEmail/${mail}`, { observe: 'response' });
+    return this.http.get(`https://localhost:5001/api/authentication/ExistsByEmail/${mail}`, { observe: 'response' });
 
   }
 
   public ExistsByUserName(username: string) {
-    return this.http.get(`https://localhost:44373/api/authentication/ExistsByUserName/${username}`, { observe: 'response' });
+    return this.http.get(`https://localhost:5001/api/authentication/ExistsByUserName/${username}`, { observe: 'response' });
 
   }
 
   public CreateNewUser(newUser: ApplicationUser) {
-    return this.http.post('https://localhost:44373/api/authentication/CreateNewUser', newUser, { observe: 'response' });
+    return this.http.post('https://localhost:5001/api/authentication/CreateNewUser', newUser, { observe: 'response' });
   }
 
   public LogInUser(user: ApplicationUser): Observable<HttpResponse<any>> {
-    return this.http.post('https://localhost:44373/api/authentication/LogInUser', user, { observe: 'response' })
+    return this.http.post('https://localhost:5001/api/authentication/LogInUser', user, { observe: 'response' })
   }
 
   public UserIsAuthenticated() {
-    return this.http.get('https://localhost:44373/api/authentication/UserIsAuthenticated', { observe: 'response' })
+    return this.http.get('https://localhost:5001/api/authentication/UserIsAuthenticated', { observe: 'response' })
   }
 
   public GetCurrentUser() {
-    return this.http.get('https://localhost:44373/api/authentication/GetCurrentUser', { observe: 'response' });
+    return this.http.get('https://localhost:5001/api/authentication/GetCurrentUser', { observe: 'response' });
   }
 }

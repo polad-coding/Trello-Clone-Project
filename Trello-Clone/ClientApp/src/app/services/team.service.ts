@@ -11,11 +11,11 @@ export class TeamService {
   }
 
   public CreateTeam(teamModel: TeamModel) {
-    return this.http.post('https://localhost:44373/api/team/CreateTeamAsync', teamModel, { observe: 'response' });
+    return this.http.post('https://localhost:5001/api/team/CreateTeamAsync', teamModel, { observe: 'response' });
   }
 
   public AssociateUserWithTeam(teamId: number) {
-    return this.http.post('https://localhost:44373/api/team/AssociateUserWithTeamAsync', teamId, { observe: 'response' });
+    return this.http.post('https://localhost:5001/api/team/AssociateUserWithTeamAsync', teamId, { observe: 'response' });
   }
 
 }

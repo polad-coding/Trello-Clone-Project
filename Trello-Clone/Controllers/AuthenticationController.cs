@@ -30,7 +30,6 @@ namespace TrelloClone.Controllers
         public async Task<ActionResult<bool>> ExistsByEmailAsync(string mail)
         {
             var result = await authenticationService.ExistsByEmailAsync(mail);
-
             return new JsonResult(result);
         }
 

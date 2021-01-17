@@ -10,6 +10,7 @@ using TrelloClone.Core.Models;
 using TrelloClone.Infrastructure;
 using TrelloClone.Core.Services;
 using TrelloClone.Core.ExtensionClasses;
+using Serilog;
 
 namespace Trello_Clone
 {
@@ -90,6 +91,9 @@ namespace Trello_Clone
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseSerilogRequestLogging();
+
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();
