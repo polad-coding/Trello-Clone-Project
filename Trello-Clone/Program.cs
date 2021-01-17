@@ -14,18 +14,18 @@ namespace Trello_Clone
     {
         public static void Main(string[] args)
         {
-            //Ask for configuration file before DI is served
             var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
-            //Take the configuration from the following file
             Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
 
             try
             {
+                Log.Information("Application starting");
                 CreateHostBuilder(args).Build().Run();
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                Log.Fatal(exception, "Application refused to start successfully");
                 Log.CloseAndFlush();
             }
         }
