@@ -11,6 +11,12 @@ using TrelloClone.Infrastructure;
 using TrelloClone.Core.Services;
 using TrelloClone.Core.ExtensionClasses;
 using Serilog;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Trello_Clone
 {
@@ -32,7 +38,7 @@ namespace Trello_Clone
 
             //services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<ApplicationUser>(options =>
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.Password.RequireDigit = false;
                 options.Password.RequiredLength = 8;
@@ -42,23 +48,36 @@ namespace Trello_Clone
                 options.SignIn.RequireConfirmedEmail = false;
                 options.SignIn.RequireConfirmedAccount = false;
             })
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
-            //services.AddCors(c =>
-            //{
-            //    c.AddPolicy("AllowOrigin", options => options.WithOrigins("https://localhost:44373").AllowAnyMethod().AllowAnyHeader().AllowCredentials());
-            //});
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+                })
+                .AddJwtBearer(cfg =>
+                {
+                    cfg.RequireHttpsMetadata = false;
+                    cfg.SaveToken = true;
+                    cfg.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidIssuer = Configuration.GetSection("JwtIssuer").Value,
+                        ValidAudience = Configuration.GetSection("JwtIssuer").Value,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("JwtKey").Value)),
+                        ClockSkew = TimeSpan.Zero 
+                    };
+                });
 
             services.AddControllers();
 
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
             services.AddScoped<ITeamService, TeamService>();
-
-            //services.AddCors(options => options.AddPolicy("ApiCorsPolicy", builder =>
-            //{
-            //    builder.WithOrigins("https://localhost:44373").AllowAnyMethod().AllowAnyHeader();
-            //}));
 
             services.AddSpaStaticFiles(configuration =>
             {
@@ -113,9 +132,6 @@ namespace Trello_Clone
 
             app.UseSpa(spa =>
             {
-                // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                // see https://go.microsoft.com/fwlink/?linkid=864501
-
                 spa.Options.SourcePath = "ClientApp";
 
                 if (env.IsDevelopment())

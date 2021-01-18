@@ -1,5 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using TrelloClone.Core.Constants;
 using TrelloClone.Core.DTOs;
@@ -13,11 +20,13 @@ namespace TrelloClone.Core.Services
 
         private UserManager<ApplicationUser> _userManager;
         private SignInManager<ApplicationUser> _signInManager;
+        private IConfiguration _configuration;
 
-        public AuthenticationService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AuthenticationService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _configuration = configuration;
         }
 
         /// <summary>
@@ -169,6 +178,38 @@ namespace TrelloClone.Core.Services
             user.UserName = userDTO.Username;
 
             return user;
+        }
+
+        /// <summary>
+        /// Create Jwt token for the given user.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public string GetJwtToken(ApplicationUserDTO user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id)
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("JwtKey").Value));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expires = DateTime.Now.AddDays(Convert.ToInt32(_configuration.GetSection("JwtExpireDays").Value));
+
+            var tokenTemplate = new JwtSecurityToken(
+                "MySite",
+                "MySite",
+                claims,
+                expires: expires,
+                signingCredentials: creds
+            );
+
+            var token = new JwtSecurityTokenHandler().WriteToken(tokenTemplate);
+            var jsonFormatedToken = JsonSerializer.Serialize(token);
+
+            return jsonFormatedToken != null ? jsonFormatedToken : null;
         }
     }
 }

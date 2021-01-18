@@ -17,14 +17,14 @@ export class UserBoardsComponent implements OnInit {
   constructor(private applicationUserService: ApplicationUserService, private router: Router) { }
 
   ngOnInit() {
-    this.applicationUserService.UserIsAuthenticated().subscribe((responce) => {
-      this.applicationUserService.GetCurrentUser().subscribe((res) => {
-        this.currentUser = <ApplicationUser>res.body;
-      },
-        (error) => { this.router.navigate(['/signup']) }
-      ); 
-    },
-      (error) => { this.router.navigate(['/signup']) });
+    this.applicationUserService.GetCurrentUser(localStorage.getItem('auth_token')).subscribe((response: any) => {
+      if (response.body != null) {
+        this.currentUser = <ApplicationUser>response.body;
+        this.router.navigate([`/${response.body.username}/boards`]);
+      }
+      else {
+        this.router.navigate(['/signup']);
+      }
+    });
   }
-
 }

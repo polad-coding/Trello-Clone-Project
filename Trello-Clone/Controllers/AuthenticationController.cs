@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Text.Json;
 using System.Threading.Tasks;
 using TrelloClone.Core.DTOs;
 using TrelloClone.Core.Interfaces;
@@ -54,7 +55,7 @@ namespace TrelloClone.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("[action]")]
-        public async Task<ActionResult<ApplicationUserDTO>> CreateNewUserAsync(ApplicationUserDTO newUser)
+        public async Task<ActionResult<ApplicationUserDTO>> CreateNewUserAsync([FromBody] ApplicationUserDTO newUser)
         {
             var createdUser = await authenticationService.CreateNewUserAsync(newUser);
 
@@ -73,7 +74,7 @@ namespace TrelloClone.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("[action]")]
-        public async Task<ActionResult<ApplicationUserDTO>> LogInUserAsync(ApplicationUserDTO user)
+        public async Task<ActionResult<ApplicationUserDTO>> LogInUserAsync([FromBody] ApplicationUserDTO user)
         {
             var logInSucceeded = await authenticationService.LogInUserAsync(user);
 
@@ -85,17 +86,31 @@ namespace TrelloClone.Controllers
             return StatusCode(500);
         }
 
-        /// <summary>
-        /// Verify that user is authentucated.
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
+        [HttpPost]
         [Route("[action]")]
-        public ActionResult UserIsAuthenticated()
+        public ActionResult GetJwtToken(ApplicationUserDTO user)
         {
-            var isAuthenticated = User.Identity.IsAuthenticated;
-            return new JsonResult(isAuthenticated);
+            var token = authenticationService.GetJwtToken(user);
+
+            if (token != null)
+            {
+                return Ok(token);
+            }
+
+            return BadRequest();
         }
+
+        ///// <summary>
+        ///// Verify that user is authentucated.
+        ///// </summary>
+        ///// <returns></returns>
+        //[HttpGet]
+        //[Route("[action]")]
+        //public ActionResult UserIsAuthenticated()
+        //{
+        //    var isAuthenticated = User.Identity.IsAuthenticated;
+        //    return new JsonResult(isAuthenticated);
+        //}
 
         /// <summary>
         /// Get user by then given id.
@@ -122,15 +137,13 @@ namespace TrelloClone.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("[action]")]
+        [Authorize]
         public async Task<ActionResult<ApplicationUserDTO>> GetCurrentUser()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                var currentUser = await authenticationService.GetUserByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                return Ok(currentUser);
-            }
-
-            return StatusCode(401);
+            var a = User.Identity;
+            var b = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var currentUser = await authenticationService.GetUserByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            return Ok(currentUser);
         }
     }
 }

@@ -119,8 +119,8 @@ export class SignupComponent {
    * @param form
    */
   public ProceedToSecondReistrationStage(form: NgForm) {
-    this.applicationUserService.ExistsByEmail(form.value.email).subscribe((responce) => {
-      if (responce.body == true) {
+    this.applicationUserService.ExistsByEmail(form.value.email).subscribe((response) => {
+      if (response.body == true) {
         this.errorMessageIsVisisble = true;
         this.continueButtonIsActive = false;
       }
@@ -140,16 +140,17 @@ export class SignupComponent {
     this.submitted = true;
 
     if (form.valid) {
-      this.applicationUserService.ExistsByUserName(form.value.username).subscribe((responce) => {
-        if (responce.body == true) {
+      this.applicationUserService.ExistsByUserName(form.value.username).subscribe((existsByUserNameResponse) => {
+        if (existsByUserNameResponse.body == true) {
           form.controls['username'].setErrors({ 'alreadyExists': true })
         }
         else {
-          console.log(this.newUser);
-          this.applicationUserService.CreateNewUser(this.newUser).subscribe((responce: any) => {
-            console.log(responce.body);
-            this.applicationUserService.LogInUser(responce.body).subscribe((res) => {
-              this.router.navigate([`/${this.newUser.username}/boards`], { state: { data: this.newUser } });
+          this.applicationUserService.CreateNewUser(this.newUser).subscribe((createNewUserResponse: any) => {
+            this.applicationUserService.LogInUser(createNewUserResponse.body).subscribe((logInResponse: any) => {
+              this.applicationUserService.GetJwtToken(logInResponse.body).subscribe((getJwtResponse: any) => {
+                localStorage.setItem('auth_token', getJwtResponse.body);
+                this.router.navigate([`/${logInResponse.body.username}/boards`]);
+              })
             });
           });
         }

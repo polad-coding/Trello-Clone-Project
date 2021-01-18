@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { error } from 'protractor';
+import { Observable } from 'rxjs';
 import { ApplicationUser } from '../models/application.user';
 import { ApplicationUserService } from '../services/application.user.service';
 
@@ -48,10 +49,13 @@ export class SigninComponent{
     this.submitted = true;
 
     if (form.valid) {
-      this.applicationUserService.ExistsByEmail(form.value.email).subscribe((responce) => {
-        if (responce.body == true) {
-          this.applicationUserService.LogInUser(this.user).subscribe((responce) => {
-            this.router.navigate([`/${responce.body.username}/boards`]);
+      this.applicationUserService.ExistsByEmail(form.value.email).subscribe((existsByEmailResponse) => {
+        if (existsByEmailResponse.body == true) {
+          this.applicationUserService.LogInUser(this.user).subscribe((logInResponse: any) => {
+            this.applicationUserService.GetJwtToken(logInResponse.body).subscribe((getJwtResponse: any) => {
+              localStorage.setItem('auth_token', getJwtResponse.body);
+                this.router.navigate([`/${logInResponse.body.username}/boards`]);
+            })
           },
             (error) => {
               form.controls['password'].setErrors({ 'incorrectPassword': true });

@@ -9,6 +9,7 @@ namespace TrelloClone.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class TeamController : ControllerBase
     {
 
@@ -26,7 +27,7 @@ namespace TrelloClone.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("CreateTeamAsync")]
-        public async Task<ActionResult> CreateTeamAsync(TeamModel teamModel)
+        public async Task<ActionResult> CreateTeamAsync([FromBody]TeamModel teamModel)
         {
             var isCreated = await _teamService.CreateTeamAsync(teamModel);
             if (isCreated)

@@ -9,6 +9,7 @@ namespace TrelloClone.Core.Interfaces
         Task<bool> ExistsByUserNameAsync(string username);
         Task<ApplicationUserDTO> CreateNewUserAsync(ApplicationUserDTO newUser);
         Task<bool> LogInUserAsync(ApplicationUserDTO user);
+        string GetJwtToken(ApplicationUserDTO user);
         bool LogOutUser();
         Task<ApplicationUserDTO> GetUserByIdAsync(string id);
     }
