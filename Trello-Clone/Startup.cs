@@ -17,6 +17,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.OpenApi.Models;
+using Trello_Clone.SwaggerFilters;
 
 namespace Trello_Clone
 {
@@ -69,9 +71,22 @@ namespace Trello_Clone
                         ValidIssuer = Configuration.GetSection("JwtIssuer").Value,
                         ValidAudience = Configuration.GetSection("JwtIssuer").Value,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("JwtKey").Value)),
-                        ClockSkew = TimeSpan.Zero 
+                        ClockSkew = TimeSpan.Zero
                     };
                 });
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Trello-Clone project API", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "Use bearer token to authorize",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT"
+                }); ;
+                c.OperationFilter<AuthorizationOperationFilter>();
+            });
 
             services.AddControllers();
 
@@ -112,6 +127,9 @@ namespace Trello_Clone
             app.UseStaticFiles();
 
             app.UseSerilogRequestLogging();
+            app.UseSwagger();
+
+
 
             if (!env.IsDevelopment())
             {
@@ -120,7 +138,10 @@ namespace Trello_Clone
 
             app.UseRouting();
 
-
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Trello-Clone API V1");
+            });
 
             app.UseAuthentication();
             app.UseAuthorization();

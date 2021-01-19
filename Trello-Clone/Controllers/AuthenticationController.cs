@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using System.Text.Json;
 using System.Threading.Tasks;
 using TrelloClone.Core.DTOs;
 using TrelloClone.Core.Interfaces;
@@ -11,7 +10,6 @@ namespace TrelloClone.Controllers
 
     [ApiController]
     [Route("api/[controller]")]
-    [AllowAnonymous]
     public class AuthenticationController : ControllerBase
     {
         private IAuthenticationService authenticationService { get; set; }
@@ -86,6 +84,11 @@ namespace TrelloClone.Controllers
             return StatusCode(500);
         }
 
+        /// <summary>
+        /// Build and return Jwt token for the current user.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("[action]")]
         public ActionResult GetJwtToken(ApplicationUserDTO user)
@@ -140,8 +143,6 @@ namespace TrelloClone.Controllers
         [Authorize]
         public async Task<ActionResult<ApplicationUserDTO>> GetCurrentUser()
         {
-            var a = User.Identity;
-            var b = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var currentUser = await authenticationService.GetUserByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
             return Ok(currentUser);
         }

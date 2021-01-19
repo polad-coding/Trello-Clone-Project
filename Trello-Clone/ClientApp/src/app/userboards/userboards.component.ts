@@ -25,6 +25,9 @@ export class UserBoardsComponent implements OnInit {
       else {
         this.router.navigate(['/signup']);
       }
-    });
+    },
+      (error) => {
+        this.router.navigate(['/signup']);
+      });
   }
 }

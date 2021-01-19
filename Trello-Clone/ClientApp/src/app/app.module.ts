@@ -21,7 +21,7 @@ const appRoutes: Routes = [
         path: 'boards',
         component: UserBoardsComponent
       }
-    ], component: UserBoardsComponent //TODO - here must be user account
+    ], component: UserBoardsComponent 
   }
 ];
 
