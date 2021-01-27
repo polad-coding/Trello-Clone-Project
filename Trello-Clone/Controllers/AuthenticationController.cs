@@ -5,57 +5,42 @@ using System.Threading.Tasks;
 using TrelloClone.Core.DTOs;
 using TrelloClone.Core.Interfaces;
 
-namespace TrelloClone.Controllers
+namespace TrelloClone.WebUI.Controllers
 {
 
     [ApiController]
     [Route("api/[controller]")]
     public class AuthenticationController : ControllerBase
     {
-        private IAuthenticationService authenticationService { get; set; }
+        private readonly IAuthenticationService _authenticationService;
 
         public AuthenticationController(IAuthenticationService authenticationService)
         {
-            this.authenticationService = authenticationService;
+            _authenticationService = authenticationService;
         }
 
-        /// <summary>
-        /// Check if user exists by email address.
-        /// </summary>
-        /// <param name="mail">Email address to check.</param>
-        /// <returns></returns>
         [HttpGet]
         [Route("[action]/{mail}")]
         public async Task<ActionResult<bool>> ExistsByEmailAsync(string mail)
         {
-            var result = await authenticationService.ExistsByEmailAsync(mail);
+            var result = await _authenticationService.ExistsByEmailAsync(mail);
             return new JsonResult(result);
         }
 
-        /// <summary>
-        /// Check if user exists by user name.
-        /// </summary>
-        /// <param name="username">User name to check.</param>
-        /// <returns></returns>
         [HttpGet]
         [Route("[action]/{username}")]
         public async Task<ActionResult<bool>> ExistsByUserNameAsync(string username)
         {
-            var result = await authenticationService.ExistsByUserNameAsync(username);
+            var result = await _authenticationService.ExistsByUserNameAsync(username);
 
             return new JsonResult(result);
         }
 
-        /// <summary>
-        /// Create and log in new user.
-        /// </summary>
-        /// <param name="newUser">New user to create.</param>
-        /// <returns></returns>
         [HttpPost]
         [Route("[action]")]
         public async Task<ActionResult<ApplicationUserDTO>> CreateNewUserAsync([FromBody] ApplicationUserDTO newUser)
         {
-            var createdUser = await authenticationService.CreateNewUserAsync(newUser);
+            var createdUser = await _authenticationService.CreateNewUserAsync(newUser);
 
             if (createdUser != null)
             {
@@ -65,16 +50,11 @@ namespace TrelloClone.Controllers
             return StatusCode(500);
         }
 
-        /// <summary>
-        /// Log in the given user.
-        /// </summary>
-        /// <param name="newUser">User to log in.</param>
-        /// <returns></returns>
         [HttpPost]
         [Route("[action]")]
         public async Task<ActionResult<ApplicationUserDTO>> LogInUserAsync([FromBody] ApplicationUserDTO user)
         {
-            var logInSucceeded = await authenticationService.LogInUserAsync(user);
+            var logInSucceeded = await _authenticationService.LogInUserAsync(user);
 
             if (logInSucceeded)
             {
@@ -93,7 +73,7 @@ namespace TrelloClone.Controllers
         [Route("[action]")]
         public ActionResult GetJwtToken(ApplicationUserDTO user)
         {
-            var token = authenticationService.GetJwtToken(user);
+            var token = _authenticationService.GetJwtToken(user);
 
             if (token != null)
             {
@@ -103,28 +83,11 @@ namespace TrelloClone.Controllers
             return BadRequest();
         }
 
-        ///// <summary>
-        ///// Verify that user is authentucated.
-        ///// </summary>
-        ///// <returns></returns>
-        //[HttpGet]
-        //[Route("[action]")]
-        //public ActionResult UserIsAuthenticated()
-        //{
-        //    var isAuthenticated = User.Identity.IsAuthenticated;
-        //    return new JsonResult(isAuthenticated);
-        //}
-
-        /// <summary>
-        /// Get user by then given id.
-        /// </summary>
-        /// <param name="id">Id of the user to get.</param>
-        /// <returns></returns>
         [HttpGet]
         [Route("[action]")]
         public async Task<ActionResult<ApplicationUserDTO>> GetUserByIdAsync(string id)
         {
-            var result = await authenticationService.GetUserByIdAsync(id);
+            var result = await _authenticationService.GetUserByIdAsync(id);
 
             if (result != null)
             {
@@ -134,16 +97,12 @@ namespace TrelloClone.Controllers
             return BadRequest();
         }
 
-        /// <summary>
-        /// Get current signed id user.
-        /// </summary>
-        /// <returns></returns>
         [HttpGet]
         [Route("[action]")]
         [Authorize]
         public async Task<ActionResult<ApplicationUserDTO>> GetCurrentUser()
         {
-            var currentUser = await authenticationService.GetUserByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var currentUser = await _authenticationService.GetUserByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
             return Ok(currentUser);
         }
     }

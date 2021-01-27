@@ -18,9 +18,9 @@ namespace TrelloClone.Core.Services
     public class AuthenticationService : IAuthenticationService
     {
 
-        private UserManager<ApplicationUser> _userManager;
-        private SignInManager<ApplicationUser> _signInManager;
-        private IConfiguration _configuration;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IConfiguration _configuration;
 
         public AuthenticationService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration)
         {
@@ -36,15 +36,10 @@ namespace TrelloClone.Core.Services
         private string GetRandomAvatarColorCode()
         {
             var random = new Random();
-            string colorCode = UserDefaultAvatarColorSchemes.colorSchemes[random.Next(0, UserDefaultAvatarColorSchemes.colorSchemes.Count)];
+            var colorCode = UserDefaultAvatarColorSchemes.colorSchemes[random.Next(0, UserDefaultAvatarColorSchemes.colorSchemes.Count)];
             return colorCode;
         }
 
-        /// <summary>
-        /// Create new user.
-        /// </summary>
-        /// <param name="newUser">DTO of the user to be created.</param>
-        /// <returns></returns>
         public async Task<ApplicationUserDTO> CreateNewUserAsync(ApplicationUserDTO newUser)
         {
             var applicationUser = new ApplicationUser();
@@ -61,11 +56,6 @@ namespace TrelloClone.Core.Services
             return null;
         }
 
-        /// <summary>
-        /// Check if user exists by email address.
-        /// </summary>
-        /// <param name="mail">Email address to check.</param>
-        /// <returns></returns>
         public async Task<bool> ExistsByEmailAsync(string mail)
         {
             var result = await _userManager.FindByEmailAsync(mail);
@@ -78,11 +68,6 @@ namespace TrelloClone.Core.Services
             return false;
         }
 
-        /// <summary>
-        /// Check if user exists by user name.
-        /// </summary>
-        /// <param name="username">User name to check.</param>
-        /// <returns></returns>
         public async Task<bool> ExistsByUserNameAsync(string username)
         {
             var result = await _userManager.FindByNameAsync(username);
@@ -95,11 +80,6 @@ namespace TrelloClone.Core.Services
             return false;
         }
 
-        /// <summary>
-        /// Get user by then given id.
-        /// </summary>
-        /// <param name="id">Id of the user to get.</param>
-        /// <returns></returns>
         public async Task<ApplicationUserDTO> GetUserByIdAsync(string id)
         {
             var result = await _userManager.FindByIdAsync(id);
@@ -114,11 +94,6 @@ namespace TrelloClone.Core.Services
             return null;
         }
 
-        /// <summary>
-        /// Log in the given user.
-        /// </summary>
-        /// <param name="user">User to log in.</param>
-        /// <returns></returns>
         public async Task<bool> LogInUserAsync(ApplicationUserDTO user)
         {
             var unauthorizedUser = await _userManager.FindByEmailAsync(user.Email);
@@ -134,10 +109,6 @@ namespace TrelloClone.Core.Services
             return false;
         }
 
-        /// <summary>
-        /// Log out the current user.
-        /// </summary>
-        /// <returns></returns>
         public bool LogOutUser()
         {
             var logOutSucceeded = _signInManager.SignOutAsync().IsCompleted;

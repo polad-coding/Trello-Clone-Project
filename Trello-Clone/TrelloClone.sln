@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrelloCloneProject", "TrelloCloneProject.csproj", "{398963D9-92E5-4AE8-842D-DD2980E5D24C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrelloClone.WebUI", "TrelloClone.WebUI.csproj", "{398963D9-92E5-4AE8-842D-DD2980E5D24C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrelloClone.Core", "..\TrelloClone.Core\TrelloClone.Core.csproj", "{0529A0F4-DA55-4BC5-A108-4588726CDBE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrelloClone.Core", "..\TrelloClone.Core\TrelloClone.Core.csproj", "{0529A0F4-DA55-4BC5-A108-4588726CDBE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrelloClone.Infrastructure", "..\TrelloClone.Infrastructure\TrelloClone.Infrastructure.csproj", "{E609675E-486D-41BC-A01B-11E0580DF3CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrelloClone.Infrastructure", "..\TrelloClone.Infrastructure\TrelloClone.Infrastructure.csproj", "{E609675E-486D-41BC-A01B-11E0580DF3CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

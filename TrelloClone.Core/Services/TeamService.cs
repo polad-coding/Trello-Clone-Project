@@ -6,7 +6,7 @@ namespace TrelloClone.Core.Services
 {
     public class TeamService : ITeamService
     {
-        private IApplicationDbContext _applicationDbContext;
+        private readonly IApplicationDbContext _applicationDbContext;
 
         public TeamService(IApplicationDbContext applicationDbContext)
         {

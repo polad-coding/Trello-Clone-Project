@@ -2,7 +2,7 @@
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 
-namespace Trello_Clone.SwaggerFilters
+namespace TrelloClone.WebUI.SwaggerFilters
 {
     public class AuthorizationOperationFilter : IOperationFilter
     {

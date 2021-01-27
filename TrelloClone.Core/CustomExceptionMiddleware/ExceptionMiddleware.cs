@@ -8,8 +8,8 @@ namespace TrelloClone.Core.CustomExceptionMiddleware
 {
     public class ExceptionMiddleware
     {
-        private RequestDelegate _next;
-        private ILogger<ExceptionMiddleware> _logger;
+        private readonly RequestDelegate _next;
+        private readonly ILogger<ExceptionMiddleware> _logger;
 
         public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
         {

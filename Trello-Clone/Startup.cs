@@ -18,9 +18,9 @@ using System.Text;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.OpenApi.Models;
-using Trello_Clone.SwaggerFilters;
+using TrelloClone.WebUI.SwaggerFilters;
 
-namespace Trello_Clone
+namespace TrelloClone.WebUI
 {
     public class Startup
     {
@@ -84,7 +84,7 @@ namespace Trello_Clone
                     Type = SecuritySchemeType.Http,
                     Scheme = "bearer",
                     BearerFormat = "JWT"
-                }); ;
+                });
                 c.OperationFilter<AuthorizationOperationFilter>();
             });
 

@@ -4,7 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
 
-namespace Trello_Clone
+namespace TrelloClone.WebUI
 {
     public class Program
     {
