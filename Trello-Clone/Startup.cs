@@ -19,6 +19,7 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.OpenApi.Models;
 using TrelloClone.WebUI.SwaggerFilters;
+using AutoMapper;
 
 namespace TrelloClone.WebUI
 {
@@ -87,6 +88,8 @@ namespace TrelloClone.WebUI
                 });
                 c.OperationFilter<AuthorizationOperationFilter>();
             });
+
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddControllers();
 

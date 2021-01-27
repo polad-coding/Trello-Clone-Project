@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -21,12 +22,14 @@ namespace TrelloClone.Core.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IConfiguration _configuration;
+        private readonly IMapper _mapper;
 
-        public AuthenticationService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration)
+        public AuthenticationService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration, IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration = configuration;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -42,9 +45,8 @@ namespace TrelloClone.Core.Services
 
         public async Task<ApplicationUserDTO> CreateNewUserAsync(ApplicationUserDTO newUser)
         {
-            var applicationUser = new ApplicationUser();
             newUser.AvatarColorCode = GetRandomAvatarColorCode();
-            TransferDTOdataToApplicationUserEntity(newUser, applicationUser);
+            var applicationUser = _mapper.Map<ApplicationUser>(newUser);
             var result = await _userManager.CreateAsync(applicationUser, newUser.Password);
 
             if (result.Succeeded)
@@ -86,8 +88,7 @@ namespace TrelloClone.Core.Services
 
             if (result != null)
             {
-                var dto = new ApplicationUserDTO();
-                TransferApplicationUserEntityDataToDTO(dto, result);
+                var dto = _mapper.Map<ApplicationUserDTO>(result);
                 return dto;
             }
 
@@ -101,7 +102,7 @@ namespace TrelloClone.Core.Services
 
             if (logInSucceeded)
             {
-                TransferApplicationUserEntityDataToDTO(user, unauthorizedUser);
+                _mapper.Map(unauthorizedUser, user);
                 user.Password = String.Empty;
                 return true;
             }
@@ -114,41 +115,6 @@ namespace TrelloClone.Core.Services
             var logOutSucceeded = _signInManager.SignOutAsync().IsCompleted;
 
             return logOutSucceeded;
-        }
-
-        /// <summary>
-        /// Transfer data from ApplicationUser entity to the respective DTO.
-        /// </summary>
-        /// <param name="userDTO"></param>
-        /// <param name="user"></param>
-        /// <returns></returns>
-        private ApplicationUserDTO TransferApplicationUserEntityDataToDTO(ApplicationUserDTO userDTO, ApplicationUser user)
-        {
-            userDTO.Id = user.Id;
-            userDTO.AvatarColorCode = user.AvatarColorCode;
-            userDTO.Bio = user.Bio;
-            userDTO.Email = user.Email;
-            userDTO.FullName = user.FullName;
-            userDTO.Username = user.UserName;
-
-            return userDTO;
-        }
-
-        /// <summary>
-        /// Transfer data from DTO to the respective ApplicationUser entity.
-        /// </summary>
-        /// <param name="userDTO"></param>
-        /// <param name="user"></param>
-        /// <returns></returns>
-        private ApplicationUser TransferDTOdataToApplicationUserEntity(ApplicationUserDTO userDTO, ApplicationUser user)
-        {
-            user.AvatarColorCode = userDTO.AvatarColorCode;
-            user.Bio = userDTO.Bio;
-            user.Email = userDTO.Email;
-            user.FullName = userDTO.FullName;
-            user.UserName = userDTO.Username;
-
-            return user;
         }
 
         /// <summary>
