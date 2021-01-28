@@ -28,10 +28,10 @@ namespace TrelloClone.Core.Services
         private readonly ColorSchemesSettings _colorSchemes;
 
         public AuthenticationService(
-            UserManager<ApplicationUser> userManager, 
-            SignInManager<ApplicationUser> signInManager, 
-            IConfiguration configuration, 
-            IMapper mapper, 
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            IConfiguration configuration,
+            IMapper mapper,
             Random random,
             IOptions<ColorSchemesSettings> colorSchemes
             )
@@ -61,13 +61,13 @@ namespace TrelloClone.Core.Services
             var applicationUser = _mapper.Map<ApplicationUser>(newUser);
             var result = await _userManager.CreateAsync(applicationUser, newUser.Password);
 
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                newUser.Id = applicationUser.Id;
-                return newUser;
+                return null;
             }
 
-            return null;
+            newUser.Id = applicationUser.Id;
+            return newUser;
         }
 
         public async Task<bool> ExistsByEmailAsync(string mail)
@@ -98,13 +98,13 @@ namespace TrelloClone.Core.Services
         {
             var result = await _userManager.FindByIdAsync(id);
 
-            if (result != null)
+            if (result == null)
             {
-                var dto = _mapper.Map<ApplicationUserDTO>(result);
-                return dto;
+                return null;
             }
 
-            return null;
+            var dto = _mapper.Map<ApplicationUserDTO>(result);
+            return dto;
         }
 
         public async Task<bool> LogInUserAsync(ApplicationUserDTO user)
@@ -112,14 +112,14 @@ namespace TrelloClone.Core.Services
             var unauthorizedUser = await _userManager.FindByEmailAsync(user.Email);
             var logInSucceeded = _signInManager.PasswordSignInAsync(unauthorizedUser, user.Password, false, false).Result.Succeeded;
 
-            if (logInSucceeded)
+            if (!logInSucceeded)
             {
-                _mapper.Map(unauthorizedUser, user);
-                user.Password = string.Empty;
-                return true;
+                return false;
             }
 
-            return false;
+            _mapper.Map(unauthorizedUser, user);
+            user.Password = string.Empty;
+            return true;
         }
 
         public bool LogOutUser()

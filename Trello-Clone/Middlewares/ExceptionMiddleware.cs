@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Text;
 using System.Threading.Tasks;
 using TrelloClone.Core.Models;
 
-namespace TrelloClone.Core.CustomExceptionMiddleware
+namespace TrelloClone.WebUI.Middlewares
 {
     public class ExceptionMiddleware
     {
@@ -31,15 +32,28 @@ namespace TrelloClone.Core.CustomExceptionMiddleware
 
         private Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
+            if (context.Response.HasStarted)
+            {
+                return null;
+            }
+
+            context.Response.Clear();
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = exception.HResult;
             _logger.LogError(exception, exception.Message);
 
-            return context.Response.WriteAsync(new ErrorDetailsModel 
-            { 
-                Message = exception.Message,
-                StatusCode = context.Response.StatusCode 
-            }.ToString());
+            try
+            {
+                return context.Response.WriteAsync(new ErrorDetailsModel
+                {
+                    Message = exception.Message
+                }.ToString(), Encoding.UTF8);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Unable to write an error to the response.");
+            }
+
+            return null;
         }
     }
 }

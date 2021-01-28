@@ -1,6 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 using TrelloClone.Core.Interfaces;
 using TrelloClone.Core.Models;
+using System.Linq;
 
 namespace TrelloClone.Core.Services
 {
@@ -21,8 +23,8 @@ namespace TrelloClone.Core.Services
         /// <returns></returns>
         public async Task<bool> AssociateUserWithTeamAsync(int teamId, string userId)
         {
-            var team = await _applicationDbContext.Teams.FindAsync(teamId);
-            team.TeamUserModels.Add(new TeamUserModel { TeamId = team.Id, UserId = userId });
+            var team = await _applicationDbContext.Teams.OrderBy(t => t.Id).LastOrDefaultAsync();
+            team?.TeamUserModels.Add(new TeamUserModel { TeamId = team.Id, UserId = userId });
 
             var rowsAffected = await _applicationDbContext.SaveAsync();
 

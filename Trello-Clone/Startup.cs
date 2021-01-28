@@ -9,7 +9,7 @@ using TrelloClone.Core.Interfaces;
 using TrelloClone.Core.Models;
 using TrelloClone.Infrastructure;
 using TrelloClone.Core.Services;
-using TrelloClone.Core.ExtensionClasses;
+using TrelloClone.WebUI.Extensions;
 using Serilog;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -20,7 +20,8 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.OpenApi.Models;
 using TrelloClone.WebUI.SwaggerFilters;
 using AutoMapper;
-using TrelloClone.Core.Constants;
+using TrelloClone.WebUI.Middlewares;
+using TrelloClone.Core.Settings;
 
 namespace TrelloClone.WebUI
 {
@@ -126,7 +127,7 @@ namespace TrelloClone.WebUI
                 app.UseHsts();
             }
 
-            app.ConfigureCustomExceptionMiddleware();
+            app.UseCustomExceptionMiddleware();
 
             //app.UseCors("AllowOrigin");
 
