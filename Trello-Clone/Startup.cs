@@ -20,6 +20,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.OpenApi.Models;
 using TrelloClone.WebUI.SwaggerFilters;
 using AutoMapper;
+using TrelloClone.Core.Constants;
 
 namespace TrelloClone.WebUI
 {
@@ -91,11 +92,14 @@ namespace TrelloClone.WebUI
 
             services.AddAutoMapper(typeof(Startup));
 
+            services.Configure<ColorSchemesSettings>(options => Configuration.GetSection("ColorSchemesSettings").Bind(options));
+
             services.AddControllers();
 
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
             services.AddScoped<ITeamService, TeamService>();
+            services.AddSingleton<Random>();
 
             services.AddSpaStaticFiles(configuration =>
             {

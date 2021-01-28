@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using TrelloClone.Core.Constants;
+using TrelloClone.Core.Settings;
 using TrelloClone.Core.DTOs;
 using TrelloClone.Core.Interfaces;
 using TrelloClone.Core.Models;
@@ -23,13 +24,24 @@ namespace TrelloClone.Core.Services
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
+        private readonly Random _random;
+        private readonly ColorSchemesSettings _colorSchemes;
 
-        public AuthenticationService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration, IMapper mapper)
+        public AuthenticationService(
+            UserManager<ApplicationUser> userManager, 
+            SignInManager<ApplicationUser> signInManager, 
+            IConfiguration configuration, 
+            IMapper mapper, 
+            Random random,
+            IOptions<ColorSchemesSettings> colorSchemes
+            )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration = configuration;
             _mapper = mapper;
+            _random = random;
+            _colorSchemes = colorSchemes.Value;
         }
 
         /// <summary>
@@ -38,8 +50,8 @@ namespace TrelloClone.Core.Services
         /// <returns></returns>
         private string GetRandomAvatarColorCode()
         {
-            var random = new Random();
-            var colorCode = UserDefaultAvatarColorSchemes.colorSchemes[random.Next(0, UserDefaultAvatarColorSchemes.colorSchemes.Count)];
+            var randomIndex = _random.Next(0, _colorSchemes.SchemesSetting.Count);
+            var colorCode = _colorSchemes.SchemesSetting[randomIndex];
             return colorCode;
         }
 
@@ -103,7 +115,7 @@ namespace TrelloClone.Core.Services
             if (logInSucceeded)
             {
                 _mapper.Map(unauthorizedUser, user);
-                user.Password = String.Empty;
+                user.Password = string.Empty;
                 return true;
             }
 
