@@ -3,6 +3,8 @@ import { ApplicationUser } from '../models/application.user';
 import { TeamModel } from '../models/team';
 import { NgForm, NgModel } from '@angular/forms';
 import { TeamService } from '../services/team.service';
+import { ApplicationUserService } from '../services/application.user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navigationpanel',
@@ -24,7 +26,7 @@ export class NavigationPanelComponent implements OnInit {
   public newTeam: TeamModel = new TeamModel();
   public submitButtonIsActive: boolean = false;
 
-  constructor(private renderer: Renderer2, private teamService: TeamService) { }
+  constructor(private renderer: Renderer2, private teamService: TeamService, private applicationUserService: ApplicationUserService, private router: Router) { }
 
   ngOnInit() {
 
@@ -90,5 +92,13 @@ export class NavigationPanelComponent implements OnInit {
 
   public StopFurtherEventPropagation(event: MouseEvent) {
     event.stopPropagation();
+  }
+
+  public LogOutUser() {
+    let token = localStorage.getItem('auth_token');
+    this.applicationUserService.LogOutUser(token).subscribe((response) => {
+      localStorage.removeItem('auth_token');
+      this.router.navigate(['/signup']);
+    });
   }
 }

@@ -110,9 +110,9 @@ namespace TrelloClone.Core.Services
         public async Task<bool> LogInUserAsync(ApplicationUserDTO user)
         {
             var unauthorizedUser = await _userManager.FindByEmailAsync(user.Email);
-            var logInSucceeded = _signInManager.PasswordSignInAsync(unauthorizedUser, user.Password, false, false).Result.Succeeded;
+            var logIn = await _signInManager.PasswordSignInAsync(unauthorizedUser, user.Password, false, false);
 
-            if (!logInSucceeded)
+            if (!logIn.Succeeded)
             {
                 return false;
             }
@@ -122,11 +122,9 @@ namespace TrelloClone.Core.Services
             return true;
         }
 
-        public bool LogOutUser()
+        public async Task LogOutAsync()
         {
-            var logOutSucceeded = _signInManager.SignOutAsync().IsCompleted;
-
-            return logOutSucceeded;
+            await _signInManager.SignOutAsync();
         }
 
         /// <summary>

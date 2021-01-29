@@ -10,7 +10,7 @@ namespace TrelloClone.Core.Interfaces
         Task<ApplicationUserDTO> CreateNewUserAsync(ApplicationUserDTO newUser);
         Task<bool> LogInUserAsync(ApplicationUserDTO user);
         string GetJwtToken(ApplicationUserDTO user);
-        bool LogOutUser();
+        Task LogOutAsync();
         Task<ApplicationUserDTO> GetUserByIdAsync(string id);
     }
 }

@@ -105,5 +105,15 @@ namespace TrelloClone.WebUI.Controllers
             var currentUser = await _authenticationService.GetUserByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
             return Ok(currentUser);
         }
+
+        [HttpPost]
+        [Route("LogOutUser")]
+        [Authorize]
+        public async Task<ActionResult> LogOutAsync()
+        {
+            await _authenticationService.LogOutAsync();
+            return Ok();
+        }
+
     }
 }

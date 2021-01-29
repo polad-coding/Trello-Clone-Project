@@ -35,4 +35,9 @@ export class ApplicationUserService {
   public GetJwtToken(user: ApplicationUser) {
     return this.http.post(`https://localhost:5001/api/authentication/GetJwtToken`, user, { observe: 'response' });
   }
+
+  public LogOutUser(token: string) {
+    return this.http.post('https://localhost:5001/api/authentication/LogOutUser', null, { headers: { 'Authorization': `Bearer ${token}` }, observe: 'response' });
+
+  }
 }
