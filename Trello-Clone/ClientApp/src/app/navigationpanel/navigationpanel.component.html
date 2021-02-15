@@ -44,7 +44,7 @@
       </button>
     </div>
     <div id="create-modal-actions-part">
-      <button id="create-board-button">
+      <button id="create-board-button" (click)="DisplayCreateBoardModal($event)">
         <span id="create-board-title-text"><span class="sc-bdVaJa jKipYA" role="img" aria-label="BoardIcon"><svg width="16" height="16" role="presentation" focusable="false" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M3 5a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5zm2 1a1 1 0 011-1h4a1 1 0 011 1v10a1 1 0 01-1 1H6a1 1 0 01-1-1V6zm9-1a1 1 0 00-1 1v6a1 1 0 001 1h4a1 1 0 001-1V6a1 1 0 00-1-1h-4z" fill="currentColor"></path></svg></span> Create board</span>
         <p>A board is made up of cards ordered on lists. Use it to manage projects, track information, or organize anything.</p>
       </button>
@@ -55,6 +55,21 @@
     </div>
   </div>
 </ng-template>
+
+<div hidden>
+  <div id="board-modal-container" >
+    <div id="board-modal" (click)="StopFurtherEventPropagation($event)">
+      <div id="board-creation-part" #boardCreationPart></div>
+      <div id="board-background-selection-part">
+        <ul id="color-schemes-unordered-list">
+          <li *ngFor="let colorScheme of boardsBackgroundColors" class="background-color-selector">
+            <div  [style.backgroundColor]="colorScheme"></div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
 
 <ng-template [ngIf]="teamModalIsVisible">
   <div id="team-modal-container">

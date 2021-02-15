@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, OnChanges, Renderer2, ViewChild, ElementRef, ViewChildren, QueryList, } from '@angular/core';
+import { Component, OnInit, AfterViewInit, AfterContentInit, Input, OnChanges, Renderer2, ViewChild, ElementRef, ViewChildren, QueryList, } from '@angular/core';
 import { ApplicationUser } from '../models/application.user';
 import { TeamModel } from '../models/team';
 import { NgForm, NgModel } from '@angular/forms';
 import { TeamService } from '../services/team.service';
 import { ApplicationUserService } from '../services/application.user.service';
 import { Router } from '@angular/router';
+import { BoardService } from '../services/board.service';
 
 @Component({
   selector: 'app-navigationpanel',
@@ -16,20 +17,31 @@ import { Router } from '@angular/router';
   providers: [TeamService]
 
 })
-export class NavigationPanelComponent implements OnInit {
+export class NavigationPanelComponent implements OnInit, OnChanges {
 
   @Input() user: any;
   public userInitials: string;
   public createModalIsVisisble: boolean = false;
   public accountModalIsVisible: boolean = false;
   public teamModalIsVisible: boolean = false;
+  public boardModalIsVisible: boolean = false;
   public newTeam: TeamModel = new TeamModel();
   public submitButtonIsActive: boolean = false;
+  public boardsBackgroundColors: Array<string>;
+  @ViewChild('boardCreationPart', { static: false })
+  public boardCreationPartElement: ElementRef;
 
-  constructor(private renderer: Renderer2, private teamService: TeamService, private applicationUserService: ApplicationUserService, private router: Router) { }
+  constructor(private renderer: Renderer2,
+    private teamService: TeamService,
+    private applicationUserService: ApplicationUserService,
+    private router: Router,
+    private boardService: BoardService) { }
 
   ngOnInit() {
+    this.boardService.GetBackgroudColorSchemes().subscribe((response: any) => {
+      this.boardsBackgroundColors = response.body;
 
+    });
   }
 
   public PreventEventBubblingOnTeamModal(event: MouseEvent) {
@@ -40,6 +52,7 @@ export class NavigationPanelComponent implements OnInit {
     this.createModalIsVisisble = false;
     this.accountModalIsVisible = false;
     this.teamModalIsVisible = false;
+    this.boardModalIsVisible = false;
   }
 
   public CloseTeamModal() {
@@ -47,7 +60,8 @@ export class NavigationPanelComponent implements OnInit {
   }
 
   ngOnChanges() {
-    console.log(this.user)
+    this.renderer.setStyle(this.boardCreationPartElement.nativeElement, 'background-color', this.boardsBackgroundColors[0]);
+
     let initials = this.user.fullName.split(' ').map((str) => { return str.charAt(0); })
     this.userInitials = `${initials[0] != undefined ? initials[0] : ''}${initials[1] != undefined ? initials[1] : ''}`;
   }
@@ -69,6 +83,13 @@ export class NavigationPanelComponent implements OnInit {
     this.createModalIsVisisble = false;
     //display create team modal
     this.teamModalIsVisible = true;
+  }
+
+  public DisplayCreateBoardModal(event: MouseEvent) {
+    event.stopPropagation();
+    this.createModalIsVisisble = false;
+    this.boardModalIsVisible = true;
+
   }
 
   public CheckFieldLength(teamName: NgModel) {

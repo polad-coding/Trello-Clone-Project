@@ -342,6 +342,17 @@
       justify-content:center;
   }
 
+#board-modal-container {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0,0,0,.6);
+  z-index: 100;
+  top: 0;
+  display: flex;
+  justify-content:center;
+}
+
 #team-modal {
   width: 1200px;
   min-height: 500px;
@@ -353,6 +364,44 @@
   position: relative;
 }
 
+#color-schemes-unordered-list{
+    display:flex;
+    justify-content:space-between;
+    height:100%;
+    padding:0;
+    flex-wrap:wrap;
+    list-style:none;
+}
+
+.background-color-selector{
+    width:30px;
+    height:30px;
+}
+
+  .background-color-selector div {
+    width: 100%;
+    height: 100%;
+    border-radius: 3px;
+  }
+
+#board-creation-part {
+  height: 100%;
+  width: 300px;
+  margin-right: 10px;
+  border-radius: 3px;
+}
+
+#board-background-selection-part {
+  height: 100%;
+  width: 100px;
+}
+
+#board-modal {
+  width: 415px;
+  height: 100px;
+  margin-top: 50px;
+  display: flex;
+}
 
   #team-modal div {
     flex-grow: 1;

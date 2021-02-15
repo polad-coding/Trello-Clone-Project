@@ -40,12 +40,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\src\app\" />
+    <None Remove="ClientApp\src\app\services\board.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TrelloClone.Core\TrelloClone.Core.csproj" />
     <ProjectReference Include="..\TrelloClone.Infrastructure\TrelloClone.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\services\board.service.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

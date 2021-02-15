@@ -11,6 +11,7 @@ import { ApplicationUserService } from './services/application.user.service';
 import { UserBoardsComponent } from './userboards/userboards.component';
 import { NavigationPanelComponent } from './navigationpanel/navigationpanel.component';
 import { TeamService } from './services/team.service';
+import { BoardService } from './services/board.service';
 
 const appRoutes: Routes = [
   { path: 'signup', component: SignupComponent },
@@ -42,7 +43,8 @@ const appRoutes: Routes = [
   ],
   providers: [
     ApplicationUserService,
-    TeamService
+    TeamService,
+    BoardService
   ],
   bootstrap: [AppComponent]
 })

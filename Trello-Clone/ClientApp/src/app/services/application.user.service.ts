@@ -12,7 +12,6 @@ export class ApplicationUserService {
 
   public ExistsByEmail(mail: string) {
     return this.http.get(`https://localhost:5001/api/authentication/ExistsByEmail/${mail}`, { observe: 'response' });
-
   }
 
   public ExistsByUserName(username: string) {
